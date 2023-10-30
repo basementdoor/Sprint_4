@@ -1,27 +1,18 @@
 package sprint_4_project.POM;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
 public class MainPage {
-
     private final WebDriver driver;
 
     public MainPage(WebDriver driver) {
         this.driver = driver;
     }
 
-    public By getFaqField() {
-        return faqField;
-    }
-
     private static final String URL = "https://qa-scooter.praktikum-services.ru";
     //Область FAQ
     private final By faqField = By.className("Home_FAQ__3uVm4");
-    public String getURL() {
-        return URL;
-    }
     //Вопросы
     private final By firstQuestion = By.id("accordion__heading-0");
 
@@ -39,7 +30,39 @@ public class MainPage {
 
     private final By eighthQuestion = By.id("accordion__heading-7");
 
-    // далее геттеры на локаторы вопросов
+    // Локаторы ответов на вопросы
+    private final By firstQuestionAnswer = By.xpath(".//div[@id='accordion__panel-0']/p");
+
+    private final By secondQuestionAnswer = By.xpath(".//div[@id='accordion__panel-1']/p");
+
+    private final By thirdQuestionAnswer = By.xpath(".//div[@id='accordion__panel-2']/p");
+
+    private final By fourthQuestionAnswer = By.xpath(".//div[@id='accordion__panel-3']/p");
+
+    private final By fifthQuestionAnswer = By.xpath(".//div[@id='accordion__panel-4']/p");
+
+    private final By sixthQuestionAnswer = By.xpath(".//div[@id='accordion__panel-5']/p");
+
+    private final By seventhQuestionAnswer = By.xpath(".//div[@id='accordion__panel-6']/p");
+
+    private final By eighthQuestionAnswer = By.xpath(".//div[@id='accordion__panel-7']/p");
+
+    // первая кнопка заказать
+    private final By firstOrderButton = By.xpath(".//button[@class='Button_Button__ra12g']");
+
+    // вторая кнопка заказать
+    private final By secondOrderButton = By.xpath(".//button[contains(@class, 'Button_Middle__1CSJM')]");
+
+// далее геттеры на поля
+
+    public String getURL() {
+        return URL;
+    }
+
+    public By getFaqField() {
+        return faqField;
+    }
+
     public By getFirstQuestion() {
         return firstQuestion;
     }
@@ -47,6 +70,7 @@ public class MainPage {
     public By getSecondQuestion() {
         return secondQuestion;
     }
+
     public By getThirdQuestion() {
         return thirdQuestion;
     }
@@ -71,24 +95,7 @@ public class MainPage {
         return eighthQuestion;
     }
 
-    // Локаторы ответов на вопросы
-    private final By firstQuestionAnswer = By.xpath(".//div[@id='accordion__panel-0']/p");
-
-    private final By secondQuestionAnswer = By.xpath(".//div[@id='accordion__panel-1']/p");
-
-    private final By thirdQuestionAnswer = By.xpath(".//div[@id='accordion__panel-2']/p");
-
-    private final By fourthQuestionAnswer = By.xpath(".//div[@id='accordion__panel-3']/p");
-
-    private final By fifthQuestionAnswer = By.xpath(".//div[@id='accordion__panel-4']/p");
-
-    private final By sixthQuestionAnswer = By.xpath(".//div[@id='accordion__panel-5']/p");
-
-    private final By seventhQuestionAnswer = By.xpath(".//div[@id='accordion__panel-6']/p");
-
-    private final By eighthQuestionAnswer = By.xpath(".//div[@id='accordion__panel-7']/p");
-
-    // Геттеры ответов на вопросы
+    // Геттеры ответов на вопросы и кнопок Заказать
 
     public By getFirstQuestionAnswer() {
         return firstQuestionAnswer;
@@ -122,16 +129,9 @@ public class MainPage {
         return eighthQuestionAnswer;
     }
 
-
-    // первая кнопка заказать
-    private final By firstOrderButton = By.xpath(".//button[@class='Button_Button__ra12g']");
-
     public By getFirstOrderButton() {
         return firstOrderButton;
     }
-
-    // вторая кнопка заказать
-    private final By secondOrderButton = By.xpath(".//button[contains(@class, 'Button_Middle__1CSJM')]");
 
     public By getSecondOrderButton() {
         return secondOrderButton;

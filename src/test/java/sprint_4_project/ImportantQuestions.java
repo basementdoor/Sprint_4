@@ -1,29 +1,19 @@
 package sprint_4_project;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import java.util.concurrent.TimeUnit;
-import org.openqa.selenium.chrome.ChromeOptions;
 import sprint_4_project.POM.MainPage;
 import sprint_4_project.Steps.Steps;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 @RunWith(Parameterized.class)
-public class ImportantQuestions {
-
-    private static WebDriver driver;
+public class ImportantQuestions extends BeforeAndAfter {
     static MainPage mainPage = new MainPage(driver);
-    public final By questionButton;
-    public final By answerText;
-    public final String expectedText;
+    private final By questionButton;
+    private final By answerText;
+    private final String expectedText;
 
     public ImportantQuestions(By questionButton, By answerText, String expectedText) {
         this.questionButton = questionButton;
@@ -55,19 +45,6 @@ public class ImportantQuestions {
         };
     }
 
-
-
-    @Before
-    public void setUp() {
-
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*");
-
-        driver = new ChromeDriver(options);
-        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-
-    }
-
     @Test
     public void answerCorrespondsToQuestion() {
 
@@ -84,30 +61,5 @@ public class ImportantQuestions {
                 steps.getWebText(answerText));
 
     }
-
-    @Test // негативный тест
-    public void answerNotCorrespondsToQuestion() {
-
-        MainPage mainPage = new MainPage(driver);
-        Steps steps = new Steps(driver);
-
-        final String incorrectText = "Некорректный текст";
-
-        steps
-                .open(mainPage.getURL())
-                .scroll(mainPage.getFaqField())
-                .click(questionButton);
-
-        assertNotEquals("В блоке содержится некорректный текст",
-                incorrectText,
-                steps.getWebText(answerText));
-
-    }
-
-    @After
-    public void tearDown() {
-        driver.quit();
-    }
-
 
 }

@@ -1,30 +1,43 @@
 package sprint_4_project;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import java.util.concurrent.TimeUnit;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.openqa.selenium.By;
 import sprint_4_project.POM.MainPage;
 import sprint_4_project.POM.OrderCreation;
 import sprint_4_project.Steps.Steps;
-
 import static org.junit.Assert.assertEquals;
 
-public class CreateOrder {
-    private static WebDriver driver;
+@RunWith(Parameterized.class)
+public class CreateOrder extends BeforeAndAfter {
 
-    @Before
-    public void setUp() {
+    private final String name;
+    private final String surname;
+    private final String adress;
+    private final By subwayStation;
+    private final String phone;
+    private final By deviceColor;
 
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*");
+    static OrderCreation orderCreation = new OrderCreation(driver);
 
-        driver = new ChromeDriver(options);
-        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+    public CreateOrder(String name, String surname, String adress, By subwayStation, String phone, By deviceColor) {
+        this.name = name;
+        this.surname = surname;
+        this.adress = adress;
+        this.subwayStation = subwayStation;
+        this.phone = phone;
+        this.deviceColor = deviceColor;
+    }
 
+    @Parameterized.Parameters
+    public static Object[][] data() {
+        return new Object[][] {
+                { "Вячеслав", "Пупков", "Колотушкина, 1", orderCreation.getCherkizovoStation(), "+71112223344",
+                        orderCreation.getOrderPickBlackColor() },
+                { "Мстислав", "Коровин", "Болотушкина, 1", orderCreation.getSokolnikiStation(), "+79257809781",
+                        orderCreation.getOrderPickGreyColor() },
+        };
     }
 
     @Test
@@ -38,68 +51,30 @@ public class CreateOrder {
                 .open(mainPage.getURL())
                 .click(mainPage.getFirstOrderButton())
                 .click(orderCreation.getSkipCookie())
-                .inputText(orderCreation.getOrderName(), "Вячеслав")
-                .inputText(orderCreation.getOrderSurname(), "Пупков")
-                .inputText(orderCreation.getOrderAdress(), "Колотушкина, 1")
+                .inputText(orderCreation.getOrderName(), name)
+                .inputText(orderCreation.getOrderSurname(), surname)
+                .inputText(orderCreation.getOrderAdress(), adress)
                 .click(orderCreation.getOrderSubwayStation())
-                .click(orderCreation.getCherkizovoStation())
-                .inputText(orderCreation.getOrderPhone(), "+71112223344")
+                .click(subwayStation)
+                .inputText(orderCreation.getOrderPhone(), phone)
                 .click(orderCreation.getNextButton())
                 .click(orderCreation.getOrderDeliveryDate())
                 .click(orderCreation.getOrderPickDate())
                 .click(orderCreation.getOrderRentPeriod())
                 .click(orderCreation.getOrderPickPeriod())
-                .click(orderCreation.getOrderPickBlackColor())
+                .click(deviceColor)
                 .click(orderCreation.getOrderFinalButton())
                 .click(orderCreation.getConfirmationButton());
 
 
-        assertEquals("Элемента нет на странице",
+        assertEquals("Элемента с подтверждением заказа нет на странице",
                 true,
                 steps.checkShown(orderCreation.getOrderSuccess()));
 
-
     }
 
-    /* Задумывался как негативный тест, но в нем не проходится весь флоу
     @Test
-    public void orderNotCreatedFirstButton() {
-
-        MainPage mainPage = new MainPage(driver);
-        OrderCreation orderCreation = new OrderCreation(driver);
-        Steps steps = new Steps(driver);
-
-        steps
-                .open(mainPage.getURL())
-                .click(mainPage.getFirstOrderButton())
-                .click(orderCreation.getSkipCookie())
-                .inputText(orderCreation.getOrderName(), "Вячеслав")
-                .inputText(orderCreation.getOrderSurname(), "Пупков")
-                .inputText(orderCreation.getOrderAdress(), "Колотушкина, 1")
-                .click(orderCreation.getOrderSubwayStation())
-                .click(orderCreation.getCherkizovoStation())
-                .inputText(orderCreation.getOrderPhone(), "+711") //некорректный номер
-                .click(orderCreation.getNextButton())
-                .click(orderCreation.getOrderDeliveryDate())
-                .click(orderCreation.getOrderPickDate())
-                .click(orderCreation.getOrderRentPeriod())
-                .click(orderCreation.getOrderPickPeriod())
-                .click(orderCreation.getOrderPickBlackColor())
-                .click(orderCreation.getOrderFinalButton())
-                .click(orderCreation.getConfirmationButton());
-
-
-        assertEquals("Элемента нет на странице",
-                false,
-                steps.checkShown(orderCreation.getOrderSuccess()));
-
-
-    }
-    */
-
-
-    @Test
-    public void orderCreatedSecondButton() {
+    public void orderFormOpenedSecondButton() {
 
         MainPage mainPage = new MainPage(driver);
         OrderCreation orderCreation = new OrderCreation(driver);
@@ -108,35 +83,13 @@ public class CreateOrder {
         steps
                 .open(mainPage.getURL())
                 .scroll(mainPage.getSecondOrderButton())
-                .click(mainPage.getSecondOrderButton())
-                .click(orderCreation.getSkipCookie())
-                .inputText(orderCreation.getOrderName(), "Мстислав")
-                .inputText(orderCreation.getOrderSurname(), "Коровин")
-                .inputText(orderCreation.getOrderAdress(), "Болотушкина, 1")
-                .click(orderCreation.getOrderSubwayStation())
-                .click(orderCreation.getCherkizovoStation())
-                .inputText(orderCreation.getOrderPhone(), "+71112223377")
-                .click(orderCreation.getNextButton())
-                .click(orderCreation.getOrderDeliveryDate())
-                .click(orderCreation.getOrderPickDate())
-                .click(orderCreation.getOrderRentPeriod())
-                .click(orderCreation.getOrderPickPeriod())
-                .click(orderCreation.getOrderPickBlackColor())
-                .click(orderCreation.getOrderFinalButton())
-                .click(orderCreation.getConfirmationButton());
+                .click(mainPage.getSecondOrderButton());
 
 
-        assertEquals("Элемента нет на странице",
+        assertEquals("Окна для ввода данных заказа нет на странице",
                 true,
-                steps.checkShown(orderCreation.getOrderSuccess()));
+                steps.checkShown(orderCreation.getOrderForm()));
 
-
-    }
-
-    @After
-    public void tearDown() {
-
-        driver.quit();
 
     }
 
