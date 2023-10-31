@@ -10,7 +10,7 @@ import sprint_4_project.Steps.Steps;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
-public class CreateOrder extends BeforeAndAfter {
+public class FirstButtonCreateOrderSuccess extends BeforeAndAfter {
 
     private final String name;
     private final String surname;
@@ -21,7 +21,7 @@ public class CreateOrder extends BeforeAndAfter {
 
     static OrderCreation orderCreation = new OrderCreation(driver);
 
-    public CreateOrder(String name, String surname, String adress, By subwayStation, String phone, By deviceColor) {
+    public FirstButtonCreateOrderSuccess(String name, String surname, String adress, By subwayStation, String phone, By deviceColor) {
         this.name = name;
         this.surname = surname;
         this.adress = adress;
@@ -70,26 +70,6 @@ public class CreateOrder extends BeforeAndAfter {
         assertEquals("Элемента с подтверждением заказа нет на странице",
                 true,
                 steps.checkShown(orderCreation.getOrderSuccess()));
-
-    }
-
-    @Test
-    public void orderFormOpenedSecondButton() {
-
-        MainPage mainPage = new MainPage(driver);
-        OrderCreation orderCreation = new OrderCreation(driver);
-        Steps steps = new Steps(driver);
-
-        steps
-                .open(mainPage.getURL())
-                .scroll(mainPage.getSecondOrderButton())
-                .click(mainPage.getSecondOrderButton());
-
-
-        assertEquals("Окна для ввода данных заказа нет на странице",
-                true,
-                steps.checkShown(orderCreation.getOrderForm()));
-
 
     }
 
